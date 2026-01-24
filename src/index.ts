@@ -3,7 +3,8 @@
  */
 
 export class TheWorkshopService {
-  private name = 'the-workshop';
+  private readonly name = 'the-workshop';
+  private readonly status = Object.freeze({ name: this.name, status: 'active' });
   
   async start(): Promise<void> {
     console.log(`[${this.name}] Starting...`);
@@ -14,7 +15,7 @@ export class TheWorkshopService {
   }
   
   getStatus() {
-    return { name: this.name, status: 'active' };
+    return this.status;
   }
 }
 
