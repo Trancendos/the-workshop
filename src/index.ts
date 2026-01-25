@@ -4,6 +4,9 @@
 
 export class TheWorkshopService {
   private name = 'the-workshop';
+
+  // Optimization: Cache status object to avoid reallocation. Frozen for immutability.
+  private readonly cachedStatus = Object.freeze({ name: this.name, status: 'active' });
   
   async start(): Promise<void> {
     console.log(`[${this.name}] Starting...`);
@@ -14,7 +17,7 @@ export class TheWorkshopService {
   }
   
   getStatus() {
-    return { name: this.name, status: 'active' };
+    return this.cachedStatus;
   }
 }
 
