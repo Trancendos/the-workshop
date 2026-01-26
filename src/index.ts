@@ -5,6 +5,9 @@
 export class TheWorkshopService {
   private name = 'the-workshop';
   
+  // Cache the status object and freeze it to prevent mutations
+  private readonly status = Object.freeze({ name: this.name, status: 'active' });
+
   async start(): Promise<void> {
     console.log(`[${this.name}] Starting...`);
   }
@@ -14,7 +17,7 @@ export class TheWorkshopService {
   }
   
   getStatus() {
-    return { name: this.name, status: 'active' };
+    return this.status;
   }
 }
 
