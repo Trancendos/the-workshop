@@ -13,8 +13,14 @@ export class TheWorkshopService {
     console.log(`[${this.name}] Stopping...`);
   }
   
+  // Optimization: Cache status object lazily to avoid allocation on every call
+  private _status: { name: string; status: string } | undefined;
+
   getStatus() {
-    return { name: this.name, status: 'active' };
+    if (!this._status) {
+      this._status = Object.freeze({ name: this.name, status: 'active' });
+    }
+    return this._status;
   }
 }
 
