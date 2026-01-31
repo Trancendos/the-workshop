@@ -3,7 +3,7 @@
  */
 
 export class TheWorkshopService {
-  private name = 'the-workshop';
+  private readonly name = 'the-workshop';
   
   async start(): Promise<void> {
     console.log(`[${this.name}] Starting...`);
@@ -12,9 +12,15 @@ export class TheWorkshopService {
   async stop(): Promise<void> {
     console.log(`[${this.name}] Stopping...`);
   }
+
+  // Bolt: Cached status object to prevent redundant object creation
+  private cachedStatus: { name: string; status: string } | null = null;
   
   getStatus() {
-    return { name: this.name, status: 'active' };
+    if (!this.cachedStatus) {
+      this.cachedStatus = Object.freeze({ name: this.name, status: 'active' });
+    }
+    return this.cachedStatus;
   }
 }
 
