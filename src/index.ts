@@ -3,7 +3,11 @@
  */
 
 export class TheWorkshopService {
-  private name = 'the-workshop';
+  private readonly name = 'the-workshop';
+
+  // Cache the status object to avoid allocation on every call.
+  // Using Object.freeze to ensure immutability since we're returning a shared reference.
+  private readonly status = Object.freeze({ name: this.name, status: 'active' });
   
   async start(): Promise<void> {
     console.log(`[${this.name}] Starting...`);
@@ -14,7 +18,7 @@ export class TheWorkshopService {
   }
   
   getStatus() {
-    return { name: this.name, status: 'active' };
+    return this.status;
   }
 }
 
