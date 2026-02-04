@@ -4,6 +4,7 @@
 
 export class TheWorkshopService {
   private name = 'the-workshop';
+  private _cachedStatus: Readonly<{ name: string; status: string }> | null = null;
   
   async start(): Promise<void> {
     console.log(`[${this.name}] Starting...`);
@@ -13,8 +14,15 @@ export class TheWorkshopService {
     console.log(`[${this.name}] Stopping...`);
   }
   
+  /**
+   * Returns the service status.
+   * Optimized to return a cached, frozen object to reduce memory allocation.
+   */
   getStatus() {
-    return { name: this.name, status: 'active' };
+    if (!this._cachedStatus) {
+      this._cachedStatus = Object.freeze({ name: this.name, status: 'active' });
+    }
+    return this._cachedStatus;
   }
 }
 
